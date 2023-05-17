@@ -48,7 +48,7 @@ class GRPCCommunicator(Communicator):
         self,
         ip: Optional[str] = None,
         port: Optional[int] = None,
-        timeout: float = 10.0,
+        timeout: float = 20.0,
         credentials=None,
         **kwargs,
     ):
@@ -64,7 +64,7 @@ class GRPCCommunicator(Communicator):
             grpc.channel_ready_future(self._channel).result(timeout=timeout)
         except grpc.FutureTimeoutError as err:
             raise ConnectionError(
-                'Failed to connect to Server in given timeout of 10 secs'
+                f'Failed to connect to Server in given timeout of {timeout} secs'
             ) from err
 
         self._stub = prime_pb2_grpc.PrimeStub(self._channel)
